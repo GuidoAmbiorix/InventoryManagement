@@ -2,8 +2,18 @@
 
 import { useAppDispatch, useAppSelector } from "@/app/redux";
 import { setIsSidebarCollapsed } from "@/app/state";
-import { Layout, Link, LucideIcon, Menu } from "lucide-react";
+import {
+  Archive,
+  CircleDollarSign,
+  Clipboard,
+  Layout,
+  LucideIcon,
+  Menu,
+  SlidersHorizontal,
+  User,
+} from "lucide-react";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 interface SidebarLinkProps {
   href: string;
@@ -46,19 +56,18 @@ const SidebarLink = ({
     </Link>
   );
 };
-
 const Sidebar = () => {
   const dispatch = useAppDispatch();
-  const isSidebarCollapse = useAppSelector(
+  const isSidebarCollapsed = useAppSelector(
     (state) => state.global.isSidebarCollapsed
   );
 
   const toggleSideBar = () => {
-    dispatch(setIsSidebarCollapsed(!isSidebarCollapse));
+    dispatch(setIsSidebarCollapsed(!isSidebarCollapsed));
   };
 
   const sidebarClassNames = `fixed flex flex-col ${
-    isSidebarCollapse ? "w-0 md:w-16" : "w-72 md:w-64"
+    isSidebarCollapsed ? "w-0 md:w-16" : "w-72 md:w-64"
   } bg-white transition-all duration-300 overflow-hidden h-full shadow-md z-40`;
 
   return (
@@ -66,13 +75,13 @@ const Sidebar = () => {
       {/* TOP LOGO */}
       <div
         className={`flex gap-3 justify-between md:justify-normal items-center pt-8 ${
-          isSidebarCollapse ? "px-5" : "px-8"
+          isSidebarCollapsed ? "px-5" : "px-8"
         }`}
       >
         <div>logo</div>
         <h1
           className={`${
-            isSidebarCollapse ? "hidden" : "block"
+            isSidebarCollapsed ? "hidden" : "block"
           } font-extrabold text-2xl`}
         >
           EDSTOCK
@@ -90,10 +99,43 @@ const Sidebar = () => {
           href="/dashboard"
           icon={Layout}
           label="Dashboard"
-          isCollapsed={isSidebarCollapse}
+          isCollapsed={isSidebarCollapsed}
+        />
+        <SidebarLink
+          href="/inventory"
+          icon={Archive}
+          label="Inventory"
+          isCollapsed={isSidebarCollapsed}
+        />
+
+        <SidebarLink
+          href="/products"
+          icon={Clipboard}
+          label="Products"
+          isCollapsed={isSidebarCollapsed}
+        />
+        <SidebarLink
+          href="/users"
+          icon={User}
+          label="Users"
+          isCollapsed={isSidebarCollapsed}
+        />
+        <SidebarLink
+          href="/settings"
+          icon={SlidersHorizontal}
+          label="Settings"
+          isCollapsed={isSidebarCollapsed}
+        />
+        <SidebarLink
+          href="/expenses"
+          icon={CircleDollarSign}
+          label="Expenses"
+          isCollapsed={isSidebarCollapsed}
         />
       </div>
-      <div>
+
+      {/* FOOTER */}
+      <div className={`${isSidebarCollapsed ? "hidden" : "block"} mb-10`}>
         <p className="text-center text-xs text-gray-500">&copy; 2024 Edstock</p>
       </div>
     </div>

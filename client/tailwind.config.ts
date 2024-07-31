@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 import { createThemes } from "tw-colors";
-import colors, { black } from "tailwindcss/colors";
+import colors from "tailwindcss/colors";
 
 const baseColors = [
   "gray",
@@ -23,24 +23,23 @@ const shadeMapping = {
   "600": "300",
   "700": "200",
   "800": "100",
-  "900": "500",
+  "900": "50",
 };
 
 const generateThemeObject = (colors: any, mapping: any, invert = false) => {
   const theme: any = {};
   baseColors.forEach((color) => {
-    theme[color] = [];
+    theme[color] = {};
     Object.entries(mapping).forEach(([key, value]: any) => {
       const shadeKey = invert ? value : key;
       theme[color][key] = colors[color][shadeKey];
     });
   });
-
   return theme;
 };
 
 const lightTheme = generateThemeObject(colors, shadeMapping);
-const dartkTheme = generateThemeObject(colors, shadeMapping, true);
+const darkTheme = generateThemeObject(colors, shadeMapping, true);
 
 const themes = {
   light: {
@@ -48,14 +47,14 @@ const themes = {
     white: "#ffffff",
   },
   dark: {
-    ...dartkTheme,
+    ...darkTheme,
     white: colors.gray["950"],
     black: colors.gray["50"],
   },
 };
 
 const config: Config = {
-  // darkMode: "class",
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -70,6 +69,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [createThemes(themes)],
 };
+
 export default config;
