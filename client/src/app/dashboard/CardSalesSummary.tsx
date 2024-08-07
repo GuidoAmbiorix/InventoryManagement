@@ -18,14 +18,14 @@ const CardSalesSummary = () => {
   const [timeframe, setTimeframe] = useState("weekly");
 
   const totalValueSum =
-    salesData.reduce((acc: any, curr: any) => acc + curr.totalValue, 0) || 0;
+    salesData.reduce((acc, curr) => acc + curr.totalValue, 0) || 0;
 
   const averageChangePercentage =
-    salesData.reduce((acc: any, curr: any, _: any, array: any) => {
+    salesData.reduce((acc, curr, _, array) => {
       return acc + curr.changePercentage! / array.length;
     }, 0) || 0;
 
-  const highestValueData = salesData.reduce((acc: any, curr: any) => {
+  const highestValueData = salesData.reduce((acc, curr) => {
     return acc.totalValue > curr.totalValue ? acc : curr;
   }, salesData[0] || {});
 
